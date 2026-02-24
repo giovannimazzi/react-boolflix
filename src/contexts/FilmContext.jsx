@@ -14,8 +14,9 @@ const FilmContext = createContext();
 
 // # funzione per generare il provider
 function FilmProvider({ children }) {
-  const [movies, setMovies] = useState();
+  const [movies, setMovies] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [searchedQuery, setSearchedQuery] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const getMovies = () => {
@@ -53,6 +54,8 @@ function FilmProvider({ children }) {
   const contextValue = {
     searchQuery,
     setSearchQuery,
+    searchedQuery,
+    setSearchedQuery,
     getMovies,
     isLoading,
     movies,

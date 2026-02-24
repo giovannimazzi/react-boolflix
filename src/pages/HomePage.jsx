@@ -11,10 +11,14 @@ const flagAdapter = (language) => {
 };
 
 export default function HomePage() {
-  const { isLoading, movies } = useFilm();
+  const { isLoading, movies, searchedQuery } = useFilm();
 
   return (
     <>
+      <h1>MOVIES</h1>
+      {searchedQuery && (
+        <h2 className="text-muted h5">Results for {searchedQuery}...</h2>
+      )}
       {isLoading ? (
         <div className="d-flex flex-column align-items-center gap-2 mt-5">
           <div className="spinner-border" role="status">
