@@ -1,5 +1,7 @@
-# Assegnazione del gg/mm/20aa
+# Assegnazione del 24/02/2026
 
-**TITLE**
+**BoolFlix**
 
-nome repo: `repo-name`
+nome repo: `react-boolflix`
+
+Dettagli dell'assegnazione su `React BoolFlix.pdf`
