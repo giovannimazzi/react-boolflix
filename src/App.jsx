@@ -1,6 +1,9 @@
 /* import axios from "axios"; */
 import { GiPowerButton } from "react-icons/gi";
 
+const env_data = import.meta.env;
+console.log(env_data);
+
 export default function App() {
   return (
     <div className="p-3">
