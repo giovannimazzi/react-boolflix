@@ -1,17 +1,18 @@
-/* import axios from "axios"; */
-import { GiPowerButton } from "react-icons/gi";
-
-const env_data = import.meta.env;
-console.log(env_data);
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import DefaultLayout from "./layouts/DefaultLayout";
+import HomePage from "./pages/HomePage";
+import { FilmProvider } from "./contexts/FilmContext";
 
 export default function App() {
   return (
-    <div className="p-3">
-      <h1>HELLO WORLD!!!</h1>
-      <button className="btn btn-primary d-flex align-items-center gap-2">
-        <GiPowerButton className="text-warning fw-bold" />
-        BUTTON
-      </button>
-    </div>
+    <FilmProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route Component={DefaultLayout}>
+            <Route index Component={HomePage} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </FilmProvider>
   );
 }
