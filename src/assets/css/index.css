@@ -1,0 +1,6 @@
+.debug,
+.debug * {
+  border: 1px dashed red;
+  padding: 5px;
+  margin: 5px;
+}
