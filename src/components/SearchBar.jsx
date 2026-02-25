@@ -4,8 +4,7 @@ import { useFilm } from "../contexts/FilmContext";
 const appName = import.meta.env.VITE_APP_NAME;
 
 export default function SearchBar() {
-  const { searchQuery, setSearchQuery, setSearchedQuery, getMovies } =
-    useFilm();
+  const { searchQuery, setSearchQuery, setSearchedQuery, getShows } = useFilm();
 
   const handleOnChangeInput = (e) => {
     setSearchQuery(e.target.value);
@@ -13,7 +12,7 @@ export default function SearchBar() {
 
   const handleSearchClick = () => {
     setSearchedQuery(searchQuery);
-    getMovies();
+    getShows();
   };
 
   const handleOnSubmit = (e) => {
