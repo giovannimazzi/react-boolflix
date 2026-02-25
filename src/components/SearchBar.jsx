@@ -52,15 +52,12 @@ export default function SearchBar() {
               name="genres"
               id="genres"
               value={selectedGenre}
-              onChange={(e) => {
-                setSelectedGenre(e.target.value);
-                console.log(e.target.value);
-              }}
-              className="form-select"
+              onChange={(e) => setSelectedGenre(Number(e.target.value) || "")}
+              className="form-select mx-2"
             >
               <option value="">Generi</option>
               {genres?.map((g) => (
-                <option key={g.id} value={g.name}>
+                <option key={g.id} value={g.id}>
                   {g.name}
                 </option>
               ))}

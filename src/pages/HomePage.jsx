@@ -2,7 +2,14 @@ import { useFilm } from "../contexts/FilmContext";
 import ShowShows from "../components/ShowShows";
 
 export default function HomePage() {
-  const { isLoading, movies, series, searchedQuery } = useFilm();
+  const { isLoading, movies, series, searchedQuery, selectedGenre } = useFilm();
+
+  const filteredMovies = selectedGenre
+    ? movies.filter((m) => m.genre_ids?.includes(selectedGenre))
+    : movies;
+  const filteredSeries = selectedGenre
+    ? series.filter((s) => s.genre_ids?.includes(selectedGenre))
+    : series;
 
   return (
     <>
@@ -29,8 +36,8 @@ export default function HomePage() {
         <>
           {searchedQuery && (
             <>
-              <ShowShows title={"FILM"} shows={movies} />
-              <ShowShows title={"SERIE TV"} shows={series} />
+              <ShowShows title={"FILM"} shows={filteredMovies} />
+              <ShowShows title={"SERIE TV"} shows={filteredSeries} />
             </>
           )}
         </>

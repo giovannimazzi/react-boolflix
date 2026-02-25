@@ -60,7 +60,7 @@ function FilmProvider({ children }) {
   const [searchedQuery, setSearchedQuery] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [genres, setGenres] = useState([]);
-  const [selectedGenre, setSelectedGenre] = useState();
+  const [selectedGenre, setSelectedGenre] = useState("");
 
   const getGenres = () => {
     setIsLoading(true);
@@ -93,8 +93,10 @@ function FilmProvider({ children }) {
 
       Promise.all([axios.get(moviesApiUrl.href), axios.get(seriesApiUrl.href)])
         .then((res) => {
-          setMovies(normalizeData(res[0].data.results, genres, "movie"));
-          setSeries(normalizeData(res[1].data.results, genres, "tv"));
+          const movies = normalizeData(res[0].data.results, genres, "movie");
+          const series = normalizeData(res[1].data.results, genres, "tv");
+          setMovies(movies);
+          setSeries(series);
         })
         .catch((err) => {
           alert("ERRORE: " + err.message);
