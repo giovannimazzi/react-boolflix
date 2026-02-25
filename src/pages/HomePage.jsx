@@ -6,9 +6,14 @@ export default function HomePage() {
 
   return (
     <>
+      {!searchedQuery && (
+        <h2 className="text-light text-center">
+          Prova a cercare un FILM o una SERIE TV!
+        </h2>
+      )}
       {searchedQuery && (
         <div className="query">
-          <h2 className="text-dark h5">
+          <h2 className="text-dark h4">
             Risultati per "...{searchedQuery}..."
           </h2>
         </div>
@@ -22,11 +27,11 @@ export default function HomePage() {
         </div>
       ) : (
         <>
-          {movies?.length > 0 && searchedQuery && (
-            <ShowShows title={"FILM"} shows={movies} />
-          )}
-          {series?.length > 0 && searchedQuery && (
-            <ShowShows title={"SERIE TV"} shows={series} />
+          {searchedQuery && (
+            <>
+              <ShowShows title={"FILM"} shows={movies} />
+              <ShowShows title={"SERIE TV"} shows={series} />
+            </>
           )}
         </>
       )}
