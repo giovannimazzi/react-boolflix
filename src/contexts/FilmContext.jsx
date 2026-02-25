@@ -51,18 +51,26 @@ function FilmProvider({ children }) {
   const [isLoading, setIsLoading] = useState(false);
 
   const getShows = (query) => {
-    setIsLoading(true);
-    moviesApiUrl.searchParams.set("query", query);
-    seriesApiUrl.searchParams.set("query", query);
+    if (query && query.trim() != "") {
+      setIsLoading(true);
+      moviesApiUrl.searchParams.set("query", query);
+      seriesApiUrl.searchParams.set("query", query);
 
-    Promise.all([axios.get(moviesApiUrl.href), axios.get(seriesApiUrl.href)])
-      .then((res) => {
-        setMovies(normalizeData(res[0].data.results));
-        setSeries(normalizeData(res[1].data.results));
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+      Promise.all([axios.get(moviesApiUrl.href), axios.get(seriesApiUrl.href)])
+        .then((res) => {
+          setMovies(normalizeData(res[0].data.results));
+          setSeries(normalizeData(res[1].data.results));
+        })
+        .catch((err) => {
+          alert("ERRORE: " + err.message);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    } else {
+      setMovies([]);
+      setSeries([]);
+    }
   };
 
   const contextValue = {
