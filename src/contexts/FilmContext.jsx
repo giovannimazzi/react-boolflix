@@ -18,6 +18,23 @@ seriesApiUrl.searchParams.set("api_key", apiKey);
 moviesApiUrl.searchParams.set("language", language);
 seriesApiUrl.searchParams.set("language", language);
 
+function normalizeData(data) {
+  const starsArray = new Array(5);
+  starsArray.fill(false);
+  const normalizedData = data?.map((d) => {
+    const voteStars = Math.ceil((d.vote_average * 5) / 10);
+    return {
+      ...d,
+      posterSrc: posterInitPath + d.poster_path,
+      voteStars: voteStars,
+      starsArray: starsArray.map((_, index) =>
+        index + 1 <= voteStars ? true : false,
+      ),
+    };
+  });
+  return normalizedData;
+}
+
 // # dichiaro il contesto
 const FilmContext = createContext();
 
@@ -36,20 +53,8 @@ function FilmProvider({ children }) {
 
     Promise.all([axios.get(moviesApiUrl.href), axios.get(seriesApiUrl.href)])
       .then((res) => {
-        const res0 = res[0].data.results;
-        const res1 = res[1].data.results;
-        setMovies(
-          res0?.map((m) => ({
-            ...m,
-            posterSrc: posterInitPath + m.poster_path,
-          })),
-        );
-        setSeries(
-          res1?.map((s) => ({
-            ...s,
-            posterSrc: posterInitPath + s.poster_path,
-          })),
-        );
+        setMovies(normalizeData(res[0].data.results));
+        setSeries(normalizeData(res[1].data.results));
       })
       .finally(() => {
         setSearchQuery("");

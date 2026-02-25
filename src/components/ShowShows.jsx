@@ -1,3 +1,6 @@
+import { FaRegStar } from "react-icons/fa6";
+import { FaStar } from "react-icons/fa6";
+
 export default function ShowShows({ title, shows }) {
   return (
     <>
@@ -23,6 +26,15 @@ export default function ShowShows({ title, shows }) {
               </li>
               <li>
                 <strong>Voto:</strong> {show.vote_average}
+              </li>
+              <li>
+                <strong>Stelle:</strong> {show.voteStars}
+                {" - "}
+                <span>
+                  {show.starsArray.map((s, i) =>
+                    s ? <FaStar key={i} /> : <FaRegStar key={i} />,
+                  )}
+                </span>
               </li>
               <li>
                 <img

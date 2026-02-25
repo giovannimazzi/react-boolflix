@@ -8,7 +8,7 @@ export default function HomePage() {
     <>
       {searchedQuery && (
         <h2 className="text-muted h5 mb-4">
-          Results for "...{searchedQuery}..."
+          Risultati per "...{searchedQuery}..."
         </h2>
       )}
       {isLoading ? (
