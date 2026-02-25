@@ -1,6 +1,38 @@
+:root {
+  --bg-content: #434343;
+  --query-height: 50px;
+}
+
 .debug,
 .debug * {
   border: 1px dashed red;
   padding: 5px;
   margin: 5px;
+}
+
+#root {
+  height: 100vh;
+  overflow: hidden;
+}
+
+#page-content {
+  background-color: var(--bg-content);
+  height: 100%;
+  overflow: auto;
+}
+
+.query {
+  background-color: var(--bg-content);
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: var(--query-height);
+  z-index: 1;
+}
+
+.show-title {
+  background-color: var(--bg-content);
+  position: sticky;
+  top: var(--query-height);
+  z-index: 1;
 }

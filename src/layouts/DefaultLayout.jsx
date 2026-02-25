@@ -5,8 +5,10 @@ export default function DefaultLayout() {
   return (
     <>
       <SearchBar />
-      <div className="container py-5">
-        <Outlet />
+      <div id="page-content">
+        <div className="container py-4">
+          <Outlet />
+        </div>
       </div>
     </>
   );

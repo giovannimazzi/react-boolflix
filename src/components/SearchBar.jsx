@@ -20,10 +20,10 @@ export default function SearchBar() {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg bg-body-tertiary">
+    <nav className="navbar navbar-expand-lg bg-black">
       <div className="container-fluid">
-        <NavLink className="navbar-brand" to={"/"}>
-          🎞️{appName.toUpperCase()}
+        <NavLink className="navbar-brand text-primary" to={"/"}>
+          <h1>🎞️{appName.toUpperCase()}</h1>
         </NavLink>
         <button
           className="navbar-toggler"

@@ -7,9 +7,11 @@ export default function HomePage() {
   return (
     <>
       {searchedQuery && (
-        <h2 className="text-muted h5 mb-4">
-          Risultati per "...{searchedQuery}..."
-        </h2>
+        <div className="query">
+          <h2 className="text-dark h5">
+            Risultati per "...{searchedQuery}..."
+          </h2>
+        </div>
       )}
       {isLoading ? (
         <div className="d-flex flex-column align-items-center gap-2 mt-5">
@@ -21,11 +23,10 @@ export default function HomePage() {
       ) : (
         <>
           {movies?.length > 0 && searchedQuery && (
-            <ShowShows title={"FILM"} shows={movies} className="mb-3" />
+            <ShowShows title={"FILM"} shows={movies} />
           )}
-
           {series?.length > 0 && searchedQuery && (
-            <ShowShows title={"SERIE TV"} shows={series} className="mb-3" />
+            <ShowShows title={"SERIE TV"} shows={series} />
           )}
         </>
       )}

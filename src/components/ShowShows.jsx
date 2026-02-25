@@ -1,61 +1,16 @@
-import { FaRegStar } from "react-icons/fa6";
-import { FaStar } from "react-icons/fa6";
+import ShowCard from "./ShowCard";
 
 export default function ShowShows({ title, shows }) {
   return (
     <>
-      <h1>{title}</h1>
-      <ul>
+      <div className="show-title">
+        <h1 className="text-black">{title}</h1>
+      </div>
+      <div className="row row-cols-3 row-cols-md-4 g-3 mb-5">
         {shows?.map((show) => (
-          <li key={show.id} className="mb-3">
-            <ul>
-              <li>
-                <strong>Titolo:</strong> {show.title ?? show.name}
-              </li>
-              <li>
-                <strong>Titolo Originale:</strong>{" "}
-                {show.original_title ?? show.original_name}
-              </li>
-              <li>
-                <strong>Lingua Originale:</strong>
-                <img
-                  src={`https://flagcdn.com/28x21/${flagAdapter(show.original_language)}.png`}
-                  alt={show.original_language}
-                  className="ms-2 "
-                />
-              </li>
-              <li>
-                <strong>Voto:</strong> {show.vote_average}
-              </li>
-              <li>
-                <strong>Stelle:</strong> {show.voteStars}
-                {" - "}
-                <span>
-                  {show.starsArray.map((s, i) =>
-                    s ? <FaStar key={i} /> : <FaRegStar key={i} />,
-                  )}
-                </span>
-              </li>
-              <li>
-                <img
-                  src={show.posterSrc}
-                  alt={show.title ?? show.name}
-                  className="border border-1"
-                />
-              </li>
-            </ul>
-          </li>
+          <ShowCard key={show.id} show={show} />
         ))}
-      </ul>
+      </div>
     </>
   );
 }
-
-// funzione a cui aggiungere una regola,
-// ogni volta che si trova una conversione non riuscita.
-const flagAdapter = (language) => {
-  if (language === "en") return "gb";
-  if (language === "ja") return "jp";
-  if (language === "ko") return "kr";
-  return language;
-};
