@@ -1,5 +1,5 @@
 import axios from "axios";
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 import noPoster from "../assets/img/no-poster.png";
 
 const moviesBaseApiUrl = import.meta.env.VITE_SEARCH_MOVIES_URL;
@@ -11,6 +11,8 @@ const posterWidth = 342; //choose the width: [92, 154, 185, 342, 500, 780, "orig
 const posterInitPath =
   postersBaseApiUrl +
   (posterWidth === "original" ? posterWidth : `w${posterWidth}`);
+const genresMoviesBaseApiUrl = import.meta.env.VITE_GENRES_MOVIES_URL;
+const genresSeriesBaseApiUrl = import.meta.env.VITE_GENRES_SERIES_URL;
 
 const moviesApiUrl = new URL(moviesBaseApiUrl);
 const seriesApiUrl = new URL(seriesBaseApiUrl);
@@ -18,8 +20,12 @@ moviesApiUrl.searchParams.set("api_key", apiKey);
 seriesApiUrl.searchParams.set("api_key", apiKey);
 moviesApiUrl.searchParams.set("language", language);
 seriesApiUrl.searchParams.set("language", language);
+const gernesMoviesApiUrl = new URL(genresMoviesBaseApiUrl);
+const gernesSeriesApiUrl = new URL(genresSeriesBaseApiUrl);
+gernesMoviesApiUrl.searchParams.set("api_key", apiKey);
+gernesSeriesApiUrl.searchParams.set("api_key", apiKey);
 
-function normalizeData(data) {
+function normalizeData(data, genresArray) {
   const starsArray = new Array(5);
   starsArray.fill(false);
   const normalizedData = data?.map((d) => {
@@ -35,6 +41,9 @@ function normalizeData(data) {
       starsArray: starsArray.map((_, index) =>
         index + 1 <= voteStars ? true : false,
       ),
+      genres: d.genre_ids.map(
+        (gid) => genresArray.find((g) => g.id === gid).name,
+      ),
     };
   });
   return normalizedData;
@@ -49,6 +58,34 @@ function FilmProvider({ children }) {
   const [series, setSeries] = useState([]);
   const [searchedQuery, setSearchedQuery] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [genres, setGenres] = useState([]);
+
+  const getGenres = () => {
+    setIsLoading(true);
+
+    Promise.all([
+      axios.get(gernesMoviesApiUrl.href),
+      axios.get(gernesSeriesApiUrl.href),
+    ])
+      .then((res) => {
+        const results = [
+          ...genres,
+          ...res[0].data.genres,
+          ...res[1].data.genres,
+        ];
+        const genresSet = [];
+        results.forEach((g) => {
+          if (!genresSet.map((g) => g.id).includes(g.id)) genresSet.push(g);
+        });
+        setGenres(genresSet);
+      })
+      .catch((err) => {
+        alert("ERRORE: " + err.message);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
 
   const getShows = (query) => {
     if (query && query.trim() != "") {
@@ -58,8 +95,8 @@ function FilmProvider({ children }) {
 
       Promise.all([axios.get(moviesApiUrl.href), axios.get(seriesApiUrl.href)])
         .then((res) => {
-          setMovies(normalizeData(res[0].data.results));
-          setSeries(normalizeData(res[1].data.results));
+          setMovies(normalizeData(res[0].data.results, genres));
+          setSeries(normalizeData(res[1].data.results, genres));
         })
         .catch((err) => {
           alert("ERRORE: " + err.message);
@@ -80,7 +117,12 @@ function FilmProvider({ children }) {
     isLoading,
     movies,
     series,
+    getGenres,
   };
+
+  useEffect(() => {
+    getGenres();
+  }, []);
 
   return (
     <FilmContext.Provider value={contextValue}>{children}</FilmContext.Provider>

@@ -21,7 +21,6 @@ export default function ShowCard({ show }) {
             className="w-100 h-100 rounded-0 object-fit-cover"
           />
         </div>
-
         <div className="card-details card-img-overlay bg-dark text-white text-center">
           <h5 className="card-title fw-bold">{show.title ?? show.name}</h5>
           <h6 className="text-secondary">
@@ -37,6 +36,9 @@ export default function ShowCard({ show }) {
               s ? <FaStar key={i} /> : <FaRegStar key={i} />,
             )}
           </span>
+          {show.genres?.length > 0 && (
+            <p className="text-secondary">{show.genres.join(", ")}</p>
+          )}
           <p className="card-text">{show.overview}</p>
         </div>
       </div>
