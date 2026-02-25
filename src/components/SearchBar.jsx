@@ -5,7 +5,13 @@ import { useState } from "react";
 const appName = import.meta.env.VITE_APP_NAME;
 
 export default function SearchBar() {
-  const { setSearchedQuery, getShows } = useFilm();
+  const {
+    setSearchedQuery,
+    getShows,
+    genres,
+    selectedGenre,
+    setSelectedGenre,
+  } = useFilm();
   const [searchQuery, setSearchQuery] = useState("");
 
   const handleOnChangeInput = (e) => {
@@ -42,8 +48,25 @@ export default function SearchBar() {
             role="search"
             onSubmit={handleOnSubmit}
           >
+            <select
+              name="genres"
+              id="genres"
+              value={selectedGenre}
+              onChange={(e) => {
+                setSelectedGenre(e.target.value);
+                console.log(e.target.value);
+              }}
+              className="form-select"
+            >
+              <option value="">Generi</option>
+              {genres?.map((g) => (
+                <option key={g.id} value={g.name}>
+                  {g.name}
+                </option>
+              ))}
+            </select>
             <input
-              className="form-control me-2"
+              className="form-control mx-2"
               type="search"
               placeholder="Cerca..."
               aria-label="Search"

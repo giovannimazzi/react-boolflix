@@ -42,7 +42,7 @@ function normalizeData(data, genresArray, type) {
         index + 1 <= voteStars ? true : false,
       ),
       genres: d.genre_ids.map(
-        (gid) => genresArray.find((g) => g.id === gid).name,
+        (gid) => genresArray.find((g) => g.id === gid)?.name,
       ),
       type: type,
     };
@@ -60,6 +60,7 @@ function FilmProvider({ children }) {
   const [searchedQuery, setSearchedQuery] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [genres, setGenres] = useState([]);
+  const [selectedGenre, setSelectedGenre] = useState();
 
   const getGenres = () => {
     setIsLoading(true);
@@ -69,11 +70,7 @@ function FilmProvider({ children }) {
       axios.get(gernesSeriesApiUrl.href),
     ])
       .then((res) => {
-        const results = [
-          ...genres,
-          ...res[0].data.genres,
-          ...res[1].data.genres,
-        ];
+        const results = [...res[0].data.genres, ...res[1].data.genres];
         const genresSet = [];
         results.forEach((g) => {
           if (!genresSet.map((g) => g.id).includes(g.id)) genresSet.push(g);
@@ -118,7 +115,10 @@ function FilmProvider({ children }) {
     isLoading,
     movies,
     series,
+    genres,
     getGenres,
+    selectedGenre,
+    setSelectedGenre,
   };
 
   useEffect(() => {
