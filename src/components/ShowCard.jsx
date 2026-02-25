@@ -1,3 +1,5 @@
+import axios from "axios";
+import { useState } from "react";
 import { FaRegStar } from "react-icons/fa6";
 import { FaStar } from "react-icons/fa6";
 
@@ -10,10 +12,54 @@ const flagAdapter = (language) => {
   return language;
 };
 
+const getCast5 = (hasCast, setHasCast, type, id, setCast, setIsLoading) => {
+  if (!hasCast) {
+    setIsLoading(true);
+    const baseApiUrl =
+      type === "movie"
+        ? import.meta.env.VITE_CREDITS_MOVIES_URL.replace(
+            "{movie_id}",
+            "{placeholder}",
+          )
+        : import.meta.env.VITE_CREDITS_SERIES_URL.replace(
+            "{series_id}",
+            "{placeholder}",
+          );
+
+    const apiUrl = new URL(baseApiUrl.replace("{placeholder}", id));
+    apiUrl.searchParams.set("api_key", import.meta.env.VITE_API_KEY);
+
+    axios
+      .get(apiUrl)
+      .then((res) => {
+        setCast(res.data.cast.map((c) => c.name).slice(0, 5));
+        setHasCast(true);
+      })
+      .catch((e) => alert("ERRORE: " + e.message))
+      .finally(() => setIsLoading(false));
+  }
+};
+
 export default function ShowCard({ show }) {
+  const [hasCast, setHasCast] = useState(false);
+  const [cast, setCast] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
   return (
     <div className="col">
-      <div className="card rounded-0 show-card">
+      <div
+        className="card rounded-0 show-card"
+        onMouseEnter={() =>
+          getCast5(
+            hasCast,
+            setHasCast,
+            show.type,
+            show.id,
+            setCast,
+            setIsLoading,
+          )
+        }
+      >
         <div className="ratio ratio-2x3">
           <img
             src={show.posterSrc}
@@ -39,7 +85,15 @@ export default function ShowCard({ show }) {
           {show.genres?.length > 0 && (
             <p className="text-secondary">{show.genres.join(", ")}</p>
           )}
-          <p className="card-text">{show.overview}</p>
+          {isLoading && <p>Caricamento Cast...</p>}
+          {!isLoading && cast.length > 0 && <p>{cast.join(", ")}</p>}
+          {show.overview && (
+            <p className="card-text">
+              <strong>Trama:</strong>
+              <br />
+              {show.overview}
+            </p>
+          )}
         </div>
       </div>
     </div>

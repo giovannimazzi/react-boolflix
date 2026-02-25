@@ -25,7 +25,7 @@ const gernesSeriesApiUrl = new URL(genresSeriesBaseApiUrl);
 gernesMoviesApiUrl.searchParams.set("api_key", apiKey);
 gernesSeriesApiUrl.searchParams.set("api_key", apiKey);
 
-function normalizeData(data, genresArray) {
+function normalizeData(data, genresArray, type) {
   const starsArray = new Array(5);
   starsArray.fill(false);
   const normalizedData = data?.map((d) => {
@@ -44,6 +44,7 @@ function normalizeData(data, genresArray) {
       genres: d.genre_ids.map(
         (gid) => genresArray.find((g) => g.id === gid).name,
       ),
+      type: type,
     };
   });
   return normalizedData;
@@ -95,8 +96,8 @@ function FilmProvider({ children }) {
 
       Promise.all([axios.get(moviesApiUrl.href), axios.get(seriesApiUrl.href)])
         .then((res) => {
-          setMovies(normalizeData(res[0].data.results, genres));
-          setSeries(normalizeData(res[1].data.results, genres));
+          setMovies(normalizeData(res[0].data.results, genres, "movie"));
+          setSeries(normalizeData(res[1].data.results, genres, "tv"));
         })
         .catch((err) => {
           alert("ERRORE: " + err.message);
