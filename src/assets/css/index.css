@@ -10,14 +10,8 @@
   margin: 5px;
 }
 
-#root {
-  height: 100vh;
-  overflow: hidden;
-}
-
 #page-content {
   background-color: var(--bg-content);
-  height: 100%;
   overflow: auto;
   scroll-behavior: smooth;
 }
@@ -27,14 +21,14 @@
   position: sticky;
   top: 0;
   height: var(--query-height);
-  z-index: 1;
+  z-index: 100;
 }
 
 .show-title {
   background-color: var(--bg-content);
   position: sticky;
   top: var(--query-height);
-  z-index: 1;
+  z-index: 100;
 }
 
 .ratio-2x3 {
