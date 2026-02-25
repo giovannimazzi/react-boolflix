@@ -1,10 +1,12 @@
 import { NavLink } from "react-router-dom";
 import { useFilm } from "../contexts/FilmContext";
+import { useState } from "react";
 
 const appName = import.meta.env.VITE_APP_NAME;
 
 export default function SearchBar() {
-  const { searchQuery, setSearchQuery, setSearchedQuery, getShows } = useFilm();
+  const { setSearchedQuery, getShows } = useFilm();
+  const [searchQuery, setSearchQuery] = useState("");
 
   const handleOnChangeInput = (e) => {
     setSearchQuery(e.target.value);
@@ -12,7 +14,8 @@ export default function SearchBar() {
 
   const handleSearchClick = () => {
     setSearchedQuery(searchQuery);
-    getShows();
+    getShows(searchQuery);
+    setSearchQuery("");
   };
 
   const handleOnSubmit = (e) => {

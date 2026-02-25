@@ -1,12 +1,13 @@
 import axios from "axios";
 import { createContext, useContext, useState } from "react";
+import noPoster from "../assets/img/no-poster.png";
 
 const moviesBaseApiUrl = import.meta.env.VITE_SEARCH_MOVIES_URL;
 const seriesBaseApiUrl = import.meta.env.VITE_SEARCH_SERIES_URL;
 const apiKey = import.meta.env.VITE_API_KEY;
 const language = import.meta.env.VITE_LANG;
 const postersBaseApiUrl = import.meta.env.VITE_POSTERS_URL;
-const posterWidth = 342; //choose the width: [92, 154, 185, 342, 500, 780, "original"]
+const posterWidth = 780; //choose the width: [92, 154, 185, 342, 500, 780, "original"]
 const posterInitPath =
   postersBaseApiUrl +
   (posterWidth === "original" ? posterWidth : `w${posterWidth}`);
@@ -23,9 +24,13 @@ function normalizeData(data) {
   starsArray.fill(false);
   const normalizedData = data?.map((d) => {
     const voteStars = Math.ceil((d.vote_average * 5) / 10);
+    const posterSrc =
+      d.poster_path && d.poster_path.trim() !== ""
+        ? posterInitPath + d.poster_path
+        : noPoster;
     return {
       ...d,
-      posterSrc: posterInitPath + d.poster_path,
+      posterSrc: posterSrc,
       voteStars: voteStars,
       starsArray: starsArray.map((_, index) =>
         index + 1 <= voteStars ? true : false,
@@ -42,14 +47,14 @@ const FilmContext = createContext();
 function FilmProvider({ children }) {
   const [movies, setMovies] = useState();
   const [series, setSeries] = useState();
-  const [searchQuery, setSearchQuery] = useState("");
+  /*   const [searchQuery, setSearchQuery] = useState(""); */
   const [searchedQuery, setSearchedQuery] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const getShows = () => {
+  const getShows = (query) => {
     setIsLoading(true);
-    moviesApiUrl.searchParams.set("query", searchQuery);
-    seriesApiUrl.searchParams.set("query", searchQuery);
+    moviesApiUrl.searchParams.set("query", query);
+    seriesApiUrl.searchParams.set("query", query);
 
     Promise.all([axios.get(moviesApiUrl.href), axios.get(seriesApiUrl.href)])
       .then((res) => {
@@ -57,14 +62,14 @@ function FilmProvider({ children }) {
         setSeries(normalizeData(res[1].data.results));
       })
       .finally(() => {
-        setSearchQuery("");
+        /*         setSearchQuery(""); */
         setIsLoading(false);
       });
   };
 
   const contextValue = {
-    searchQuery,
-    setSearchQuery,
+    /*    searchQuery,
+    setSearchQuery, */
     searchedQuery,
     setSearchedQuery,
     getShows,
