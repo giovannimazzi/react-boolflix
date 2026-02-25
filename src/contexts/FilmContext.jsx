@@ -7,7 +7,7 @@ const seriesBaseApiUrl = import.meta.env.VITE_SEARCH_SERIES_URL;
 const apiKey = import.meta.env.VITE_API_KEY;
 const language = import.meta.env.VITE_LANG;
 const postersBaseApiUrl = import.meta.env.VITE_POSTERS_URL;
-const posterWidth = 780; //choose the width: [92, 154, 185, 342, 500, 780, "original"]
+const posterWidth = 342; //choose the width: [92, 154, 185, 342, 500, 780, "original"]
 const posterInitPath =
   postersBaseApiUrl +
   (posterWidth === "original" ? posterWidth : `w${posterWidth}`);
@@ -47,7 +47,6 @@ const FilmContext = createContext();
 function FilmProvider({ children }) {
   const [movies, setMovies] = useState();
   const [series, setSeries] = useState();
-  /*   const [searchQuery, setSearchQuery] = useState(""); */
   const [searchedQuery, setSearchedQuery] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -62,14 +61,11 @@ function FilmProvider({ children }) {
         setSeries(normalizeData(res[1].data.results));
       })
       .finally(() => {
-        /*         setSearchQuery(""); */
         setIsLoading(false);
       });
   };
 
   const contextValue = {
-    /*    searchQuery,
-    setSearchQuery, */
     searchedQuery,
     setSearchedQuery,
     getShows,
