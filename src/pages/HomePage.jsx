@@ -21,11 +21,11 @@ export default function HomePage() {
       ) : (
         <>
           {movies?.length > 0 && searchedQuery && (
-            <ShowShows title={"MOVIES"} shows={movies} className="mb-3" />
+            <ShowShows title={"FILM"} shows={movies} className="mb-3" />
           )}
 
           {series?.length > 0 && searchedQuery && (
-            <ShowShows title={"SERIES"} shows={series} className="mb-3" />
+            <ShowShows title={"SERIE TV"} shows={series} className="mb-3" />
           )}
         </>
       )}

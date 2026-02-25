@@ -24,6 +24,13 @@ export default function ShowShows({ title, shows }) {
               <li>
                 <strong>Voto:</strong> {show.vote_average}
               </li>
+              <li>
+                <img
+                  src={show.posterSrc}
+                  alt={show.title ?? show.name}
+                  className="border border-1"
+                />
+              </li>
             </ul>
           </li>
         ))}
