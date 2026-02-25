@@ -13,7 +13,7 @@ const flagAdapter = (language) => {
 export default function ShowCard({ show }) {
   return (
     <div className="col">
-      <div className="card rounded-0">
+      <div className="card rounded-0 show-card">
         <div className="ratio ratio-2x3">
           <img
             src={show.posterSrc}
@@ -22,55 +22,24 @@ export default function ShowCard({ show }) {
           />
         </div>
 
-        <div className="card-img-overlay bg-dark bg-opacity-75 text-white">
-          <h5 className="card-title">
-            <strong>Titolo:</strong> {show.title ?? show.name}
-          </h5>
-          {/* <p className="card-text">
-            This is a wider card with supporting text below as a natural lead-in
-            to additional content. This content is a little bit longer.
-          </p>
-          <p className="card-text">
-            <small>Last updated 3 mins ago</small>
-          </p> */}
-        </div>
-      </div>
-      {/* <ul>
-        <li>
-          <strong>Titolo:</strong> {show.title ?? show.name}
-        </li>
-        <li>
-          <strong>Titolo Originale:</strong>{" "}
-          {show.original_title ?? show.original_name}
-        </li>
-        <li>
-          <strong>Lingua Originale:</strong>
+        <div className="card-details card-img-overlay bg-dark text-white text-center">
+          <h5 className="card-title fw-bold">{show.title ?? show.name}</h5>
+          <h6 className="text-secondary">
+            {show.original_title ?? show.original_name}
+          </h6>
           <img
             src={`https://flagcdn.com/28x21/${flagAdapter(show.original_language)}.png`}
             alt={show.original_language}
-            className="ms-2 "
+            className="d-block ms-auto me-auto"
           />
-        </li>
-        <li>
-          <strong>Voto:</strong> {show.vote_average}
-        </li>
-        <li>
-          <strong>Stelle:</strong> {show.voteStars}
-          {" - "}
-          <span>
+          <span className="text-warning">
             {show.starsArray.map((s, i) =>
               s ? <FaStar key={i} /> : <FaRegStar key={i} />,
             )}
           </span>
-        </li>
-        <li>
-          <img
-            src={show.posterSrc}
-            alt={show.title ?? show.name}
-            className="border border-1"
-          />
-        </li>
-      </ul> */}
+          <p className="card-text">{show.overview}</p>
+        </div>
+      </div>
     </div>
   );
 }

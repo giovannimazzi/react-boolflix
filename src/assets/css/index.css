@@ -34,3 +34,15 @@
 .ratio-2x3 {
   --bs-aspect-ratio: 150%;
 }
+
+.card-details {
+  overflow: auto;
+  scroll-behavior: smooth;
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+
+.show-card:hover .card-details {
+  opacity: 0.95;
+  transition: opacity 1s ease;
+}
