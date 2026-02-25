@@ -12,14 +12,11 @@ export default function SearchBar() {
     setSearchQuery(e.target.value);
   };
 
-  const handleSearchClick = () => {
+  const handleOnSubmit = (e) => {
+    e.preventDefault();
     setSearchedQuery(searchQuery);
     getShows(searchQuery);
     setSearchQuery("");
-  };
-
-  const handleOnSubmit = (e) => {
-    e.preventDefault();
   };
 
   return (
@@ -55,11 +52,7 @@ export default function SearchBar() {
                 handleOnChangeInput(e);
               }}
             />
-            <button
-              className="btn btn-outline-primary"
-              type="submit"
-              onClick={handleSearchClick}
-            >
+            <button className="btn btn-outline-primary" type="submit">
               Cerca
             </button>
           </form>
