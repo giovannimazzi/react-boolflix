@@ -14,11 +14,14 @@ export default function ShowCard({ show }) {
   return (
     <div className="col">
       <div className="card rounded-0">
-        <img
-          src={show.posterSrc}
-          alt={show.title ?? show.name}
-          className="card-img rounded-0"
-        />
+        <div className="ratio ratio-2x3">
+          <img
+            src={show.posterSrc}
+            alt={show.title ?? show.name}
+            className="w-100 h-100 rounded-0 object-fit-cover"
+          />
+        </div>
+
         <div className="card-img-overlay bg-dark bg-opacity-75 text-white">
           <h5 className="card-title">
             <strong>Titolo:</strong> {show.title ?? show.name}

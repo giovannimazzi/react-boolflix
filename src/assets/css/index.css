@@ -35,3 +35,7 @@
   top: var(--query-height);
   z-index: 1;
 }
+
+.ratio-2x3 {
+  --bs-aspect-ratio: 150%;
+}
